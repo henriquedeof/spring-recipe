@@ -25,6 +25,9 @@ public class Recipe {
     @Lob //creating a BLOB field.
     private Byte[] image;
 
+    @Enumerated(value = EnumType.STRING)
+    private Difficulty difficulty;
+
     @OneToOne(cascade = CascadeType.ALL) //If a RECIPE is deleted, NOTE will be deleted as well.
     private Notes notes;
 
@@ -114,5 +117,13 @@ public class Recipe {
 
     public void setNotes(Notes notes) {
         this.notes = notes;
+    }
+
+    public Difficulty getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
     }
 }
