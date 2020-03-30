@@ -17,6 +17,8 @@ public class Recipe {
     private Integer servings;
     private String source;
     private String url;
+
+    @Lob
     private String directions;
 
     @Lob //creating a BLOB field.
@@ -31,7 +33,7 @@ public class Recipe {
             joinColumns = @JoinColumn(name = "recipe_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
-    private Set<Category> categories;
+    private Set<Category> categories = new HashSet<>();
 
     @Enumerated(value = EnumType.STRING)
     private Difficulty difficulty;
