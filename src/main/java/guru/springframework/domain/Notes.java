@@ -1,7 +1,12 @@
 package guru.springframework.domain;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import javax.persistence.*;
 
+@Data
+@EqualsAndHashCode(exclude = {"recipe"}) //Methods equals and hashcode are creating a circular reference as this class has a bidirectional relationship.
 @Entity
 public class Notes {
 
@@ -15,27 +20,4 @@ public class Notes {
     @Lob //Annotation for large objects. By default, the quantity of characters for JPA and Hibernate is 255. In this case, there is the possibility to have more than that.
     private String recipeNotes;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Recipe getRecipe() {
-        return recipe;
-    }
-
-    public void setRecipe(Recipe recipe) {
-        this.recipe = recipe;
-    }
-
-    public String getRecipeNotes() {
-        return recipeNotes;
-    }
-
-    public void setRecipeNotes(String recipeNotes) {
-        this.recipeNotes = recipeNotes;
-    }
 }
