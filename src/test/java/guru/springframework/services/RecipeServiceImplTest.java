@@ -13,6 +13,7 @@ import java.util.Set;
 
 import static org.mockito.Mockito.*;
 
+//There is no annotation on top of the class, therefore, this is a JUnit 5 test.
 public class RecipeServiceImplTest {
 
     private RecipeServiceImpl recipeService;

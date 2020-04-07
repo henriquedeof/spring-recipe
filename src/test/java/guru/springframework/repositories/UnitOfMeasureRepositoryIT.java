@@ -9,7 +9,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.Optional;
 
-@DataJpaTest
+@DataJpaTest //Annotation for a JPA test that focuses ONLY on JPA components.
 class UnitOfMeasureRepositoryIT {
 
     @Autowired
