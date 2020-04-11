@@ -20,6 +20,7 @@ import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.eq;
 
+//@ExtendWith(MockitoExtension.class)
 class IndexControllerTest {
 
     private IndexController indexController;
