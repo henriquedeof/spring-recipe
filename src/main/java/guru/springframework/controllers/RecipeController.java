@@ -4,23 +4,23 @@ import guru.springframework.services.RecipeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Slf4j //creating SLF4J using lombok
 @Controller
-public class IndexController {
+public class RecipeController {
 
     private final RecipeService recipeService;
 
-    public IndexController(RecipeService recipeService) {
+    public RecipeController(RecipeService recipeService) {
         this.recipeService = recipeService;
     }
 
-    @RequestMapping({"", "/", "index"})
-    public String getIndexPage(Model model){
-        log.debug("Executing Index Controller | getIndexPage method");
-        model.addAttribute("recipes", this.recipeService.getRecipes());
-        return "index";
+    @RequestMapping({"/recipe/show/{id}", "recipe/show/{id}"})
+    public String showById(@PathVariable String id, Model model){
+        model.addAttribute("recipe", this.recipeService.findById(Long.valueOf(id)));
+        return "recipe/show";
     }
 
 

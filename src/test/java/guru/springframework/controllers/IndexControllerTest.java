@@ -20,7 +20,7 @@ import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.eq;
 
-//@ExtendWith(MockitoExtension.class)
+//@ExtendWith(MockitoExtension.class) //I can user this annotation or the method MockitoAnnotations.initMocks(this);
 class IndexControllerTest {
 
     private IndexController indexController;
@@ -33,7 +33,7 @@ class IndexControllerTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.initMocks(this); //I can use this method or the annotation @ExtendWith(MockitoExtension.class)
         this.indexController = new IndexController(this.recipeService);
     }
 

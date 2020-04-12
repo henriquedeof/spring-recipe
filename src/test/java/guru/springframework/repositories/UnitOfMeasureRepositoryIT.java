@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.Optional;
 
+//@SpringBootTest //This annotation will bring the whole context up based on the Spring Boot configuration.
 @DataJpaTest //Annotation for a JPA test that focuses ONLY on JPA components.
 class UnitOfMeasureRepositoryIT {
 
@@ -32,3 +33,5 @@ class UnitOfMeasureRepositoryIT {
         Assertions.assertEquals("Cup", cup.get().getDescription());
     }
 }
+
+
