@@ -1,5 +1,7 @@
 package guru.springframework.services;
 
+import guru.springframework.converters.RecipeCommandToRecipe;
+import guru.springframework.converters.RecipeToRecipeCommand;
 import guru.springframework.domain.Recipe;
 import guru.springframework.repositories.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,10 +25,16 @@ public class RecipeServiceImplTest {
     @Mock
     private RecipeRepository recipeRepository; //This repository (interface) is being mocked as it's not possible to get information from database. So setting fake information is necessary.
 
+    @Mock
+    RecipeToRecipeCommand recipeToRecipeCommand;
+
+    @Mock
+    RecipeCommandToRecipe recipeCommandToRecipe;
+
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        this.recipeService = new RecipeServiceImpl(this.recipeRepository);
+        recipeService = new RecipeServiceImpl(recipeRepository, recipeCommandToRecipe, recipeToRecipeCommand);
     }
 
     @Test
@@ -44,7 +52,7 @@ public class RecipeServiceImplTest {
     }
 
     @Test
-    void getRecipesById(){
+    void getRecipesByIdTest(){
         Recipe recipe = new Recipe();
         recipe.setId(1L);
         Optional<Recipe> recipeOptional = Optional.of(recipe);

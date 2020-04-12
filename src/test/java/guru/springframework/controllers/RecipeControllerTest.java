@@ -12,16 +12,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.ui.Model;
 
 import static org.mockito.Mockito.anyLong;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class RecipeControllerTest {
-
-    @Mock
-    Model model;
 
     @Mock
     RecipeService service;
@@ -35,7 +31,7 @@ class RecipeControllerTest {
     }
 
     @Test
-    void showById() throws Exception {
+    void showByIdTest() throws Exception {
         Recipe recipe = new Recipe();
         recipe.setId(1L);
 
@@ -44,6 +40,7 @@ class RecipeControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders.get("/recipe/show/1"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.model().attributeExists("recipe"))
                 .andExpect(MockMvcResultMatchers.view().name("recipe/show"));
 
     }
