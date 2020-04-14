@@ -67,4 +67,18 @@ public class RecipeServiceImplTest {
 
     }
 
+    @Test
+    void deleteById() {
+        //given
+        Long idDelete = 2L;
+
+        //when
+        this.recipeService.deleteById(idDelete);
+
+        //not necessary to use when as the deleteById method returns void
+
+        //then
+        verify(this.recipeRepository, times(1)).deleteById(anyLong());
+    }
+
 }

@@ -29,11 +29,11 @@ public class RecipeServiceImpl implements RecipeService{
 
     @Override
     public Set<Recipe> getRecipes() {
-        log.debug("getRecipes method");
+        log.debug("getRecipes method", this.getClass());
+        log.debug("getRecipes method", this);
 
         Set<Recipe> recipeSet = new HashSet<>();
         this.recipeRepository.findAll().iterator().forEachRemaining(recipeSet::add);
-        log.debug("RecipeSet object - ServiceImpl: " + recipeSet);
         return recipeSet;
     }
 
@@ -62,6 +62,13 @@ public class RecipeServiceImpl implements RecipeService{
         Recipe savedRecipe = recipeRepository.save(detachedRecipe);
         log.debug("Saved RecipeId:" + savedRecipe.getId());
         return recipeToRecipeCommand.convert(savedRecipe);
+    }
+
+    @Override
+    @Transactional
+    public void deleteById(Long id) {
+        log.debug("Deleting by ID", this.getClass().getName());
+        this.recipeRepository.deleteById(id);
     }
 
 }
