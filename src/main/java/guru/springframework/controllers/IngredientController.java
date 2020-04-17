@@ -1,6 +1,8 @@
 package guru.springframework.controllers;
 
 import guru.springframework.commands.IngredientCommand;
+import guru.springframework.commands.RecipeCommand;
+import guru.springframework.commands.UnitOfMeasureCommand;
 import guru.springframework.services.IngredientService;
 import guru.springframework.services.RecipeService;
 import guru.springframework.services.UnitOfMeasureService;
@@ -16,13 +18,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class IngredientController {
 
-    private final RecipeService recipeService;
     private final IngredientService ingredientService;
+    private final RecipeService recipeService;
     private final UnitOfMeasureService unitOfMeasureService;
 
-    public IngredientController(RecipeService recipeService, IngredientService ingredientService, UnitOfMeasureService unitOfMeasureService) {
-        this.recipeService = recipeService;
+    public IngredientController(IngredientService ingredientService, RecipeService recipeService, UnitOfMeasureService unitOfMeasureService) {
         this.ingredientService = ingredientService;
+        this.recipeService = recipeService;
         this.unitOfMeasureService = unitOfMeasureService;
     }
 
@@ -53,13 +55,30 @@ public class IngredientController {
     }
 
     @PostMapping("/recipe/{recipeId}/ingredient")
-    public String saveOrUpdate(@ModelAttribute IngredientCommand ingredientCommand){
-        IngredientCommand saveIngredient = this.ingredientService.saveIngredientCommand(ingredientCommand);
+    public String saveOrUpdate(@ModelAttribute IngredientCommand command){
+        IngredientCommand savedCommand = ingredientService.saveIngredientCommand(command);
 
-        log.debug("Saved Recipe Id: " + saveIngredient.getRecipeId());
-        log.debug("Saved Ingredient Id: " + saveIngredient.getUom().getId());
+        log.debug("saved receipe id:" + savedCommand.getRecipeId());
+        log.debug("saved ingredient id:" + savedCommand.getId());
 
-        return "redirect:/recipe/" + saveIngredient.getRecipeId() + "/ingredient/" + saveIngredient.getId() + "/show";
+        return "redirect:/recipe/" + savedCommand.getRecipeId() + "/ingredient/" + savedCommand.getId() + "/show";
+    }
+
+    @GetMapping("/recipe/{recipeId}/ingredient/new")
+    public String newIngredient(@PathVariable String recipeId, Model model){
+        log.debug("Updating ingredient", this.getClass().getName());
+
+        RecipeCommand recipeCommand = this.recipeService.findCommandById(Long.valueOf(recipeId));
+        //todo throw exception if null.
+
+        IngredientCommand ingredientCommand = new IngredientCommand();
+        ingredientCommand.setRecipeId(Long.valueOf(recipeId));//setting parent Id to be used on the ingredientform page. It will be a hidden property.
+        model.addAttribute("ingredient", ingredientCommand);
+
+        ingredientCommand.setUom(new UnitOfMeasureCommand());//creating a new UnitOfMeasureCommand to avoid null on ingredientform page.
+        model.addAttribute("uomList", this.unitOfMeasureService.listAllUoms());//passing uomList to the ingredientform page.
+
+        return "recipe/ingredient/ingredientform";
     }
 
 }
