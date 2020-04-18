@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+
 @Slf4j
 @Controller
 public class IngredientController {
@@ -79,6 +80,17 @@ public class IngredientController {
         model.addAttribute("uomList", this.unitOfMeasureService.listAllUoms());//passing uomList to the ingredientform page.
 
         return "recipe/ingredient/ingredientform";
+    }
+
+
+    @GetMapping("/recipe/{recipeId}/ingredient/{ingredientId}/delete")
+    public String deleteIngredient(@PathVariable String recipeId, @PathVariable String ingredientId, Model model){
+        log.debug("Deleting ingredient");
+
+        this.ingredientService.deleteIngredient(Long.valueOf(recipeId), Long.valueOf(ingredientId));
+        model.addAttribute("recipe", this.recipeService.findCommandById(Long.valueOf(recipeId)));
+
+        return "redirect:/recipe/" + recipeId + "/ingredients";
     }
 
 }
