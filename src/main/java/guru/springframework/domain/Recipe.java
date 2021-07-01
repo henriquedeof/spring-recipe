@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Data
-@ToString(exclude = {"ingredients", "categories", "notes"})
+@ToString(exclude = {"ingredients", "categories", "notes"}) //avoiding recursion
 @Entity
 public class Recipe {
 
